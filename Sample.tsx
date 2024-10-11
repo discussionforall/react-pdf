@@ -67,12 +67,15 @@ export default function Sample() {
   };
 
   const handleMouseDown = (event: React.MouseEvent) => {
+    if (event.button === 1) return;
     setIsDragging(true);
     setStartDrag({ x: event.clientX, y: event.clientY });
+    (containerRef as HTMLElement).style.overflow = "hidden";
   };
 
   const handleMouseUp = () => {
     setIsDragging(false);
+    (containerRef as HTMLElement).style.overflow = "auto";
   };
 
   const handleMouseMove = (event: React.MouseEvent) => {
