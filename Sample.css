@@ -1,0 +1,100 @@
+.container {
+  display: flex;
+  gap: 16px;
+}
+
+.dispute-numbers,
+.pdf-viewer,
+.additional-info {
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.dispute-numbers {
+  flex: 1;
+  text-align: left;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pdf-viewer {
+  flex: 2;
+  width: 200px;
+  text-align: center;
+  margin: 16px 0;
+  border: 2px solid #333;
+  background-color: #f5f5dc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.pdf-controls {
+  margin-bottom: 10px;
+}
+
+.pdf-container {
+  width: 100%;
+  height: 700px;
+  max-height: 740px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
+.pdf-content {
+  transition: transform 0.1s;
+}
+
+.additional-info {
+  flex: 1;
+  text-align: left;
+  margin: 16px 0;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dispute-numbers h2 {
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.dispute-numbers ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 12px 0;
+}
+
+.dispute-numbers li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  color: #555;
+}
+
+.dispute-numbers li:last-child {
+  border-bottom: none;
+}
+
+.load-file {
+  margin-top: 12px;
+}
+
+.load-file label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.load-file input[type="file"] {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  cursor: pointer;
+}
+
+body {
+  margin: 0;
+}
