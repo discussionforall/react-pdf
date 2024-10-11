@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useCallback, useState } from 'react';
 import { useResizeObserver } from '@wojtekmaj/react-hooks';
 import { pdfjs, Document, Page } from 'react-pdf';
@@ -42,6 +42,11 @@ export default function Sample() {
 
   useResizeObserver(containerRef, resizeObserverOptions, onResize);
 
+  useEffect(() => {
+    // Reset scale whenever the file changes
+    setScale(1);
+    setOffset({ x: 0, y: 0 }); // Optionally reset the offset as well
+  }, [file])
   function onFileChange(event: React.ChangeEvent<HTMLInputElement>): void {
     const { files } = event.target;
     const nextFile = files?.[0];
