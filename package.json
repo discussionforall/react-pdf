@@ -1,5 +1,5 @@
 {
-  "name": "react-pdf-sample-page-vite4",
+  "name": "react-pdf-vite",
   "version": "4.0.0",
   "description": "A sample page for React-PDF.",
   "private": true,
@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "author": {
-    "name": "Wojciech Maj",
-    "email": "kontakt@wojtekmaj.pl"
+    "name": "lavkush-maurya",
+    "email": "lavkushmaurya147@gmail.com"
   },
   "license": "MIT",
   "dependencies": {
