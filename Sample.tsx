@@ -32,7 +32,7 @@ export default function Sample() {
   const [isDragging, setIsDragging] = useState(false);
   const [startDrag, setStartDrag] = useState({ x: 0, y: 0 });
   const [offset, setOffset] = useState({ x: 0, y: 0 });
-
+  const [isInsidePdfContext, setIsInsidePdfContext] = useState(false);
   const onResize = useCallback<ResizeObserverCallback>((entries) => {
     const [entry] = entries;
     if (entry) {
@@ -67,7 +67,7 @@ export default function Sample() {
   };
 
   const handleMouseDown = (event: React.MouseEvent) => {
-    if (event.button === 1) return;
+    if (event.button === 1 || !isInsidePdfContext) return;
     setIsDragging(true);
     setStartDrag({ x: event.clientX, y: event.clientY });
     (containerRef as HTMLElement).style.overflow = "hidden";
@@ -102,6 +102,15 @@ export default function Sample() {
     }
   };
 
+  const handleMouseEnter = () => {
+    setIsInsidePdfContext(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsInsidePdfContext(false);
+    setIsDragging(false);
+  };
+
   return (
     <div className="container">
       <div className="dispute-numbers">
@@ -124,7 +133,7 @@ export default function Sample() {
           <button onClick={handleZoomOut}>Zoom Out</button>
         </div>
         <div className="pdf-container" ref={setContainerRef} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove}>
-          <div className="pdf-content" style={{ transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`, transformOrigin: '0 0', transition: 'transform 0.1s' }}>
+          <div className="pdf-content" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`, transformOrigin: '0 0', transition: 'transform 0.1s' }}>
             <Document file={file} onLoadSuccess={onDocumentLoadSuccess} options={options}>
               {Array.from(new Array(numPages), (_el, index) => (
                 <Page key={`page_${index + 1}`} pageNumber={index + 1} width={containerWidth ? Math.min(containerWidth, maxWidth) : maxWidth} />
