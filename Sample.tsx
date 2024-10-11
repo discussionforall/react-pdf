@@ -75,7 +75,7 @@ export default function Sample() {
     if (event.button === 1 || !isInsidePdfContext) return;
     setIsDragging(true);
     setStartDrag({ x: event.clientX, y: event.clientY });
-    (containerRef as HTMLElement).style.overflow = "hidden";
+    // (containerRef as HTMLElement).style.overflow = "hidden";
   };
 
   const handleMouseUp = () => {
