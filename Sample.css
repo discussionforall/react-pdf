@@ -1,36 +1,54 @@
-.container {
-  display: flex;
-  gap: 16px;
-}
-
 .dispute-numbers,
-.pdf-viewer,
-.additional-info {
-  padding: 20px;
-  border-radius: 8px;
+.pdf-viewer {
+  padding: 10px;
 }
 
 .dispute-numbers {
-  flex: 1;
   margin: 16px 0;
   text-align: left;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 20%;
+}
+.additional-info-pdf-viewer {
+  width: 80%;
 }
 
 .pdf-viewer {
-  flex: 2;
-  width: 200px;
+  width: 100%;
   text-align: center;
-  margin: 16px 0;
   border: 2px solid #333;
-  background-color: #f5f5dc;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  overflow: auto;
+  touch-action: none;
 }
 
 .pdf-controls {
   margin-bottom: 10px;
+}
+.submit_btn_wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+}
+.pdf-controls button,
+.submit_btn_wrapper button {
+  background-color: #ffffff;
+  border: 1px solid black;
+  color: black;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 6px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 10px;
+  transition: background-color 0.2s ease-in-out;
+}
+input[type="radio"] {
+  accent-color: black;
 }
 
 .pdf-container {
@@ -76,10 +94,6 @@
   color: #555;
 }
 
-.dispute-numbers li:last-child {
-  border-bottom: none;
-}
-
 .load-file {
   margin-top: 12px;
 }
@@ -99,4 +113,165 @@
 
 body {
   margin: 0;
+}
+.dispute-numbers-pdf-viewer {
+  display: flex;
+  gap: 20px;
+}
+.initiating-party {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0 30px 0px;
+}
+.initiating-party h2 {
+  font-size: 20px;
+  line-height: 30px;
+  text-transform: capitalize;
+  margin-bottom: 0px;
+}
+.initiating-party p {
+  font-size: 16px;
+  line-height: 20px;
+  margin-bottom: 5px;
+  font-weight: 400;
+}
+.initiating-party input {
+  font-size: 12px;
+  padding: 3px 8px;
+  color: #000;
+}
+.initiating-party input::placeholder {
+  font-size: 12px;
+  color: #000;
+}
+.initiating-party input:focus {
+  outline: none;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.eob-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.table-container {
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+}
+
+.table-row {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+}
+
+.table-header {
+  background-color: #f2f2f2;
+}
+.table-header,
+.table-cell {
+  width: 20%;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  border-right: 1px solid #ccc;
+}
+
+.table-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: normal;
+}
+
+.radio-group div,
+.radio-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.radio-group input[type="radio"] {
+  margin: 0 5px;
+  color: black;
+}
+
+.radio-group label {
+  margin-right: 10px;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.table-header:last-child,
+.table-cell:last-child {
+  border-right: none;
+}
+.table-cell input {
+  width: 100%;
+  border: none;
+}
+.table-cell input[type="date"]::-webkit-datetime-edit,
+.table-cell input[type="date"]::placeholder {
+  color: transparent;
+}
+.table-cell input[type="date"]::-webkit-datetime-edit::after {
+  color: black; /* Or whatever color you want for your text */
+  content: attr(placeholder);
+}
+.dispute-numbers ul li.active {
+  border-color: #000;
+  color: black;
+}
+
+/* media query start */
+@media (max-width: 992px) {
+  .dispute-numbers-pdf-viewer {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .dispute-numbers {
+    width: 100%;
+    margin-bottom: 0;
+  }
+  .dispute-numbers ul {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+  .additional-info {
+    margin-top: 0;
+  }
+  .additional-info-pdf-viewer {
+    width: 100%;
+  }
+  .initiating-party {
+    padding-bottom: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .radio-group {
+    flex-direction: column;
+  }
+  .initiating-party {
+    justify-content: flex-start;
+  }
+}
+@media (max-width: 576px) {
+  .initiating-party {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
 }
