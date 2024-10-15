@@ -206,6 +206,9 @@ body {
   border-right: 1px solid #ccc;
 }
 
+h1{
+  text-align: center;
+}
 .table-cell {
   display: flex;
   justify-content: center;
