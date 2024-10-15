@@ -187,8 +187,14 @@ body {
   border-collapse: collapse;
   background-color: #ffffff;
   border: 1px solid #ccc;
+  font-size: medium;
 }
 
+@media (max-width: 500px) {
+  .table-container {
+      font-size: x-small; /* Font size for screens smaller than 500px */
+  }
+}
 .table-row {
   display: flex;
   border-bottom: 1px solid #ccc;
