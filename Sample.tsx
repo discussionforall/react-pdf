@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import { useCallback, useState } from "react";
-import { useResizeObserver } from "@wojtekmaj/react-hooks";
 import { pdfjs, Document, Page } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
+import ScrollContainer from "react-indiana-drag-scroll"; // Import ScrollContainer
 import "./Sample.css";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -17,37 +16,16 @@ const options = {
   standardFontDataUrl: "/standard_fonts/",
 };
 
-const resizeObserverOptions = {};
-const maxWidth = 800;
-const minScale = 0.5;
-const maxScale = 2;
-
 type PDFFile = string | File | null;
 
 export default function Sample() {
   const [file, setFile] = useState<PDFFile>("./sample0.pdf");
   const [activeFile, setActiveFile] = useState("./sample0.pdf");
   const [numPages, setNumPages] = useState<number>();
-  const [containerRef, setContainerRef] = useState<HTMLElement | null>(null);
-  const [containerWidth, setContainerWidth] = useState<number>();
-  const [scale, setScale] = useState(1);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startDrag, setStartDrag] = useState({ x: 0, y: 0 });
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const [isInsidePdfContext, setIsInsidePdfContext] = useState(false);
-  const onResize = useCallback<ResizeObserverCallback>((entries) => {
-    const [entry] = entries;
-    if (entry) {
-      setContainerWidth(entry.contentRect.width);
-    }
-  }, []);
-
-  useResizeObserver(containerRef, resizeObserverOptions, onResize);
+  const [scale, setScale] = useState(1.0); // Zoom scale
 
   useEffect(() => {
-    // Reset scale whenever the file changes
-    setScale(1);
-    setOffset({ x: 0, y: 0 }); // Optionally reset the offset as well
+    // Reset the file on component mount or when file changes
   }, [file]);
 
   function onDocumentLoadSuccess({
@@ -58,60 +36,20 @@ export default function Sample() {
     setNumPages(nextNumPages);
   }
 
-  const handleZoomIn = () => {
-    setScale((prevScale) => Math.min(prevScale + 0.1, maxScale));
-  };
-
-  const handleZoomOut = () => {
-    setScale((prevScale) => Math.max(prevScale - 0.1, minScale));
-  };
-
-  const handleMouseDown = (event: React.MouseEvent) => {
-    if (event.button === 1 || !isInsidePdfContext) return;
-    setIsDragging(true);
-    setStartDrag({ x: event.clientX, y: event.clientY });
-    // (containerRef as HTMLElement).style.overflow = "hidden";
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-    (containerRef as HTMLElement).style.overflow = "auto";
-  };
-
-  const handleMouseMove = (event: React.MouseEvent) => {
-    if (isDragging) {
-      const newX = offset.x + (event.clientX - startDrag.x);
-      const newY = offset.y + (event.clientY - startDrag.y);
-
-      // Calculate scaled dimensions
-      const pdfWidth = Math.min(containerWidth || maxWidth, maxWidth) * scale;
-      const pdfHeight = numPages ? pdfWidth * numPages : 0;
-
-      // Set bounds
-      const minX = Math.min(0, containerWidth! - pdfWidth);
-      const maxX = 0;
-      const minY = Math.min(0, containerWidth! - pdfHeight);
-      const maxY = 0;
-
-      // Constrain the new offsets
-      const constrainedX = Math.max(minX, Math.min(newX, maxX));
-      const constrainedY = Math.max(minY, Math.min(newY, maxY));
-      console.log("min y = ", minY);
-      console.log("new y = ", newY);
-      console.log("max y = ", maxY);
-
-      setOffset({ x: constrainedX, y: constrainedY });
-      setStartDrag({ x: event.clientX, y: event.clientY });
+  const zoomIn = () => {
+    if (scale < 5) {
+      setScale(prevScale => prevScale + 0.5);
     }
   };
 
-  const handleMouseEnter = () => {
-    setIsInsidePdfContext(true);
+  const zoomOut = () => {
+    if (scale > 0.5) {
+      setScale(prevScale => prevScale - 0.5);
+    }
   };
 
-  const handleMouseLeave = () => {
-    setIsInsidePdfContext(false);
-    setIsDragging(false);
+  const zoomReset = () => {
+    setScale(1.0);
   };
 
   return (
@@ -162,7 +100,7 @@ export default function Sample() {
           </ul>
         </div>
         <div className="additional-info-pdf-viewer">
-          <div className="additional-info">
+        <div className="additional-info">
             <div className="table-container">
               <div className="table-row">
                 <div className="table-header">Payment Date</div>
@@ -284,7 +222,6 @@ export default function Sample() {
                 <div className="table-cell">
                   <div className="radio-group">
                     <div>
-                      {" "}
                       <input
                         type="radio"
                         id="qpa-yes"
@@ -308,28 +245,13 @@ export default function Sample() {
               </div>
             </div>
           </div>
-          <div className="pdf-viewer">
-            <div className="pdf-controls">
-              <button onClick={handleZoomIn}>Zoom In</button>
-              <button onClick={handleZoomOut}>Zoom Out</button>
-            </div>
-            <div
-              className="pdf-container"
-              ref={setContainerRef}
-              onMouseDown={handleMouseDown}
-              onMouseUp={handleMouseUp}
-              onMouseMove={handleMouseMove}
-            >
-              <div
-                className="pdf-content"
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                style={{
-                  transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
-                  transformOrigin: "0 0",
-                  transition: "transhtmlForm 0.1s",
-                }}
-              >
+            <div className="pdf-viewer">
+              <div className="pdf-controls">
+                <button onClick={zoomIn}>Zoom In</button>
+                <button onClick={zoomOut}>Zoom Out</button>
+                <button onClick={zoomReset}>Reset</button>
+              </div>
+              <ScrollContainer className="pdf-container">
                 <Document
                   file={file}
                   onLoadSuccess={onDocumentLoadSuccess}
@@ -339,22 +261,17 @@ export default function Sample() {
                     <Page
                       key={`page_${index + 1}`}
                       pageNumber={index + 1}
-                      width={
-                        containerWidth
-                          ? Math.min(containerWidth, maxWidth)
-                          : maxWidth
-                      }
+                      width={800 * scale} // Adjust width based on scale
                       renderTextLayer={false}
                       renderAnnotationLayer={false}
                     />
                   ))}
                 </Document>
-              </div>
+              </ScrollContainer>
             </div>
-          </div>
           <div className="submit_btn_wrapper">
-            <button>submit</button>
-            <button>cancel</button>
+            <button>Submit</button>
+            <button>Cancel</button>
           </div>
         </div>
       </div>
