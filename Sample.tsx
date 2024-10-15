@@ -25,7 +25,8 @@ export default function Sample() {
   const [scale, setScale] = useState(1.0); // Zoom scale
 
   useEffect(() => {
-    // Reset the file on component mount or when file changes
+    // Reset scale whenever the file changes
+    setScale(1);
   }, [file]);
 
   function onDocumentLoadSuccess({
