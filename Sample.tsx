@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { pdfjs, Document, Page } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
-import ScrollContainer from "react-indiana-drag-scroll"; // Import ScrollContainer
+import ScrollContainer from "react-indiana-drag-scroll"; 
 import "./Sample.css";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -22,10 +22,10 @@ export default function Sample() {
   const [file, setFile] = useState<PDFFile>("./sample0.pdf");
   const [activeFile, setActiveFile] = useState("./sample0.pdf");
   const [numPages, setNumPages] = useState<number>();
-  const [scale, setScale] = useState(1.0); // Zoom scale
+  const [scale, setScale] = useState(1.0); 
+  const [selectedDispute, setSelectedDispute] = useState<string>("Dispute 1"); // New state for selected dispute
 
   useEffect(() => {
-    // Reset scale whenever the file changes
     setScale(1);
   }, [file]);
 
@@ -55,6 +55,7 @@ export default function Sample() {
 
   return (
     <div className="container">
+      <h1>{selectedDispute}</h1> {/* Display the selected dispute here */}
       <div className="initiating-party">
         <div>
           <h2>Initiating Party</h2>
@@ -76,6 +77,7 @@ export default function Sample() {
               onClick={() => {
                 setFile("./sample0.pdf");
                 setActiveFile("./sample0.pdf");
+                setSelectedDispute("Dispute 1"); // Update selected dispute
               }}
             >
               Dispute 1
@@ -85,6 +87,7 @@ export default function Sample() {
               onClick={() => {
                 setFile("./sample1.pdf");
                 setActiveFile("./sample1.pdf");
+                setSelectedDispute("Dispute 2"); // Update selected dispute
               }}
             >
               Dispute 2
@@ -94,6 +97,7 @@ export default function Sample() {
               onClick={() => {
                 setFile("./sample2.pdf");
                 setActiveFile("./sample2.pdf");
+                setSelectedDispute("Dispute 3"); // Update selected dispute
               }}
             >
               Dispute 3
@@ -101,7 +105,7 @@ export default function Sample() {
           </ul>
         </div>
         <div className="additional-info-pdf-viewer">
-        <div className="additional-info">
+          <div className="additional-info">
             <div className="table-container">
               <div className="table-row">
                 <div className="table-header">Payment Date</div>
@@ -246,30 +250,30 @@ export default function Sample() {
               </div>
             </div>
           </div>
-            <div className="pdf-viewer">
-              <div className="pdf-controls">
-                <button onClick={zoomIn}>Zoom In</button>
-                <button onClick={zoomOut}>Zoom Out</button>
-                <button onClick={zoomReset}>Reset</button>
-              </div>
-              <ScrollContainer className="pdf-container">
-                <Document
-                  file={file}
-                  onLoadSuccess={onDocumentLoadSuccess}
-                  options={options}
-                >
-                  {Array.from(new Array(numPages), (_el, index) => (
-                    <Page
-                      key={`page_${index + 1}`}
-                      pageNumber={index + 1}
-                      width={800 * scale} // Adjust width based on scale
-                      renderTextLayer={false}
-                      renderAnnotationLayer={false}
-                    />
-                  ))}
-                </Document>
-              </ScrollContainer>
+          <div className="pdf-viewer">
+            <div className="pdf-controls">
+              <button onClick={zoomIn}>Zoom In</button>
+              <button onClick={zoomOut}>Zoom Out</button>
+              <button onClick={zoomReset}>Reset</button>
             </div>
+            <ScrollContainer className="pdf-container">
+              <Document
+                file={file}
+                onLoadSuccess={onDocumentLoadSuccess}
+                options={options}
+              >
+                {Array.from(new Array(numPages), (_el, index) => (
+                  <Page
+                    key={`page_${index + 1}`}
+                    pageNumber={index + 1}
+                    width={800 * scale}
+                    renderTextLayer={false}
+                    renderAnnotationLayer={false}
+                  />
+                ))}
+              </Document>
+            </ScrollContainer>
+          </div>
           <div className="submit_btn_wrapper">
             <button>Submit</button>
             <button>Cancel</button>
